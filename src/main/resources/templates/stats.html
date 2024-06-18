@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Статистика</title>
+    <link rel="stylesheet" href="/static/login_reg_profile_style.css">
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+
+<body class="d-flex flex-column h-100">
+
+<header th:insert="blocks/header :: header" class="sticky-top" role="navigation"></header>
+
+<hr class="clear">
+
+<main class="container flex-shrink-0 bg-light form-signin">
+    <div class="pt-5 pb-3">
+        <div style="text-align: center;">
+            <p>Статистика</p>
+        </div>
+    </div>
+
+    <div id="drawStatus" style="height: 400px"></div>
+
+
+</main>
+
+<hr class="clear">
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script th:inline="javascript" type="text/javascript">
+    var statusString = /*[[${statusString}]]*/ [];
+    var statusInt = /*[[${statusInt}]]*/ [];
+</script>
+<script src="/static/stats.js"></script>
+
+</body>
+
+</html>

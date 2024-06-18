@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Аукцион</title>
+    <link rel="stylesheet" href="/static/catalog_style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body class="d-flex flex-column h-100">
+
+<header th:insert="blocks/header :: header" class="sticky-top"></header>
+
+<hr class="clear">
+
+<main class="container flex-shrink-0 bg-light">
+    <div class="pt-4"></div>
+    <form method="post" action="/catalog/search">
+        <div class="row">
+            <div class="col mt-3">
+                <div class="input-group">
+                    <label for="transmission" class="input-group-text">Коробка передач</label>
+                    <select id="transmission" name="transmission" class="form-control">
+                        <option th:each="g : ${transmissions}" th:value="${g}" th:label="${g.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-2">
+                <div style="text-align: center;">
+                    <button class="btn btn-lg btn-outline-primary mt-2" type="submit">Поиск</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row mt-5">
+        <div class="col-4" th:each="s : ${auctions}">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <a class="startup" th:href="'/auctions/' + ${s.id} + '/'">
+                    <img class="startup-photo mb-3" th:attr="src=${'/img/' + s.poster}">
+                    <h4 th:text="${s.name}" class="card-title pricing-card-title mx-3 text-break">Название</h4>
+                </a>
+                <ul class="list-unstyled mt-3 mb-3 mx-3">
+                    <li>Статус: <span th:text="${s.status.name}"></span></li>
+                    <li>Коробка передач: <a th:text="${s.transmission.name}" th:href="'/catalog/transmission/' + ${s.transmission}"></a></li>
+                    <li>Дата выпуска: <span th:text="${s.date}"></span></li>
+                    <li>Пробег: <span th:text="${s.mileage}"></span></li>
+                    <li>Дата начало: <span th:text="${s.start}"></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pt-4"></div>
+</main>
+
+<script type="text/javascript" src="/static/catalog_script.js"></script>
+
+<hr class="clear">
+
+
+
+</body>
+
+</html>

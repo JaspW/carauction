@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <title>Редактировать</title>
+    <link rel="stylesheet" href="/startup_add_edit_style.css">
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body class="d-flex flex-column h-100" style="">
+
+<header th:insert="blocks/header :: header" class="sticky-top"></header>
+
+<hr class="clear">
+
+<main class="container-lg flex-shrink-0 bg-light">
+    <form th:action="'/auctions/edit/' + ${auction.id}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-12 input-group flex-nowrap size-150">
+                <label for="name" class="input-group-text">Название</label>
+                <input id="name" name="name" type="text" class="form-control"
+                       required th:value="${auction.name}">
+            </div>
+            <div class="col-lg-6 size-150">
+                <div class=" input-group">
+                    <label for="contact" class="input-group-text">Контакт</label>
+                    <input id="contact" name="contact" type="text" class="form-control"
+                           required th:value="${auction.contact}">
+                </div>
+                <div class="input-group">
+                    <label for="date" class="input-group-text">Дата выпуска</label>
+                    <input id="date" name="date" type="date" class="form-control"
+                           required th:value="${auction.date}">
+                </div>
+                <div class="input-group">
+                    <label for="poster" class="input-group-text">Постер</label>
+                    <input id="poster" name="poster" type="file" class="form-control"
+                           accept=".jpg,.jpeg,.png">
+                </div>
+                <div class="input-group">
+                    <label for="screenshots" class="input-group-text">Фотографии</label>
+                    <input id="screenshots" name="screenshots" type="file" class="form-control"
+                           accept=".jpg,.jpeg,.png" multiple>
+                </div>
+                <div class="input-group">
+                    <label for="file" class="input-group-text">Файл</label>
+                    <input id="file" name="file" type="file" class="form-control"
+                           accept="*/*">
+                </div>
+                <div class="input-group">
+                    <label for="dateAndTimeStart" class="input-group-text">Начало</label>
+                    <input id="dateAndTimeStart" name="dateAndTimeStart" type="datetime-local" class="form-control"
+                           required th:value="${auction.dateAndTimeStart}">
+                </div>
+                <div class="input-group">
+                    <label for="dateAndTimeEnd" class="input-group-text">Конец</label>
+                    <input id="dateAndTimeEnd" name="dateAndTimeEnd" type="datetime-local" class="form-control"
+                           required th:value="${auction.dateAndTimeEnd}">
+                </div>
+            </div>
+            <div class="col-lg-6 size-150">
+                <div class=" input-group">
+                    <label for="power" class="input-group-text">Мощность</label>
+                    <input id="power" name="power" min="1" type="number" step="1"
+                           class="form-control" required th:value="${auction.power}">
+                </div>
+                <div class="input-group">
+                    <label for="mileage" class="input-group-text">Пробег</label>
+                    <input id="mileage" name="mileage" type="number" step="1" min="1"
+                           class="form-control" required th:value="${auction.mileage}">
+                </div>
+                <div class="input-group">
+                    <label for="price" class="input-group-text">Актуальная цена</label>
+                    <input id="price" name="price" type="number" step="1" min="1" class="form-control"
+                           required th:value="${auction.price}">
+                </div>
+                <div class="input-group">
+                    <label for="begin" class="input-group-text">Начальная цена</label>
+                    <input id="begin" name="begin" type="number" step="1" min="1" class="form-control"
+                           required th:value="${auction.begin}">
+                </div>
+                <div class="input-group">
+                    <label for="transmission" class="input-group-text">Коробка передач</label>
+                    <select id="transmission" name="transmission" class="form-control">
+                        <option th:each="transmission : ${transmissions}" th:value="${transmission}"
+                                th:label="${transmission.name}"
+                                th:selected="${transmission == auction.transmission}"></option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-lg-12">
+                <h4><label for="description">Описание</label></h4>
+                <input type="text" class="form-control" name="description" id="description" required
+                       th:value="${auction.description}">
+            </div>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Обновить</button>
+    </form>
+    <div class="pt-3"></div>
+</main>
+
+<hr class="clear">
+
+
+</body>
+
+</html>

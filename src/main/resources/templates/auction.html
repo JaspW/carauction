@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${auction.name}"></title>
+    <link rel="stylesheet" href="/static/startups_style.css">
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body class="d-flex flex-column h-100" style="">
+
+<header th:insert="blocks/header :: header" class="sticky-top" role="navigation"></header>
+
+<hr class="clear">
+
+<main class="container-lg flex-shrink-0 bg-light">
+    <div class="row">
+        <div class="col-lg-12 my-3">
+            <h1 th:text="${auction.name}">Name</h1>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <img class="poster-startup" th:attr="src=${'/img/' + auction.poster}">
+            <div class="btn-group mt-3">
+                <a th:href="'/img/' + ${auction.file}" target="_blank" class="btn btn-primary">Файл</a>
+            </div>
+            <div th:if="${role == 'ADMIN'}">
+                <div th:if="${auction.status.name() == 'WAITING'}" class="btn-group mt-3">
+                    <a th:href="'/auctions/active/' + ${auction.id}" class="btn btn-primary">Открыть</a>
+                </div>
+                <div th:if="${auction.status.name() == 'ACTIVE'}" class="btn-group mt-3">
+                    <a th:href="'/auctions/end/' + ${auction.id}" class="btn btn-primary">Закрыть</a>
+                </div>
+                <div class="btn-group mt-3">
+                    <a th:href="'/auctions/edit/' + ${auction.id}" class="btn btn-primary">Редактировать</a>
+                </div>
+                <div class="btn-group mt-3">
+                    <a th:href="'/auctions/delete/' + ${auction.id}" class="btn btn-danger">Удалить</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div>
+                <div><b>Статус: </b><span th:text="${auction.status.name}"></span></div>
+                <div><b>Начало: </b><span th:text="${auction.start}"></span></div>
+                <div><b>Конец: </b><span th:text="${auction.end}"></span></div>
+                <div><b>Коробка передач: </b><span><a th:text="${auction.transmission.name}"
+                                                      th:href="'/catalog/transmission/' + ${auction.transmission}"></a></span>
+                </div>
+                <div><b>Контакт: </b><span th:text="${auction.contact}"></span></div>
+                <div><b>Дата выпуска: </b><span th:text="${auction.date}"></span></div>
+                <div><b>Пробег: </b><span th:text="${auction.mileage}"></span></div>
+                <div><b>Начальная цена: </b><span th:text="${auction.begin}"></span></div>
+                <div><b>Актуальная цена: </b><span th:text="${auction.price}"></span></div>
+                <div th:if="${auction.owner != null}"><b>Ставка от: </b><span
+                        th:text="${auction.owner.username}"></span></div>
+                <hr>
+                <form th:if="${role == 'USER' and auction.status.name() == 'ACTIVE'}" method="post"
+                      th:action="'/auctions/bet/' + ${auction.id}">
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="price" name="price" required
+                               th:min="${auction.price + 1}" placeholder="Введите сумму">
+                        <label for="price">Введите сумму</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Сделать ставку</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-12 mt-3">
+            <h4>Описание</h4>
+            <p class="description text-break" th:text="${auction.description}"></p>
+        </div>
+        <div class="col-lg-12 mt-3">
+            <h4>Фотография</h4>
+            <center>
+                <div class="row">
+                    <div th:each="i : ${auction.screenshots}" class="col-6">
+                        <img class="poster-startup my-2" th:attr="src=${'/img/' + i}">
+                    </div>
+                </div>
+                <hr class="clear">
+            </center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mt-5">
+            <form th:action="'/auctions/comment/add/' + ${auction.id}" method="post">
+                <h4>Отзывы</h4>
+                <div class="alert alert-primary">
+                    <input type="text" id="date" name="date" hidden>
+                    <input placeholder="Добавить отзыв..." class="form-control" type="text" name="comment" id="comment"
+                           required>
+                    <div class="btn-group mt-2">
+                        <button class="btn btn-primary" type="submit">Добавить отзыв</button>
+                        <button class="btn btn-primary" type="reset">Очистить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-12" th:each="c : ${auction.comments}">
+            <div class="alert alert-secondary">
+                <h5>
+                    <span th:text="${c.username}"></span>
+                    <span>|</span>
+                    <span th:text="${c.date}"></span>
+                </h5>
+                <hr>
+                <p class="description text-break" th:text="${c.comment}">Comment</p>
+            </div>
+        </div>
+    </div>
+    <div class="pt-5"></div>
+</main>
+
+<script type="text/javascript" src="/static/startup_script.js"></script>
+
+<hr class="clear">
+
+
+</body>
+
+</html>
